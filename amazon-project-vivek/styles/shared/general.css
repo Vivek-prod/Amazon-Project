@@ -48,6 +48,16 @@ input,select,button{
     box-shadow: none;
 }
 
+.link-primary{
+    color: rgb(1,124,182);
+    cursor: pointer;
+}
+
+.link-primary:hover{
+    color: rgb(196,80,0);
+}
+
+
 select{
     color: rgb(33,33,33);
     background-color: rgb(240,240,240);
