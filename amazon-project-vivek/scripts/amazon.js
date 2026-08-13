@@ -1,5 +1,5 @@
 // ALL THE PRODUCTS ARE LOADED FROM PRODUCT.JS
-import { cart } from "../data/cart.js";
+import { cart, addToCart } from "../data/cart.js";
 
 import { products } from "../data/products.js";
 
@@ -55,6 +55,29 @@ products.forEach((product) => {
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
 //add item to cart
+
+function updateCartQuantity(quantity, button) {
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+
+  console.log(quantity);
+  console.log(cart);
+
+  const productContainer = button.closest(".product-container");
+
+  const addedMessage = productContainer.querySelector(".added-to-cart");
+
+  addedMessage.style.opacity = 1;
+
+  setTimeout(() => {
+    addedMessage.style.opacity = 0;
+  }, 2000);
+}
+
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
     const productID = button.dataset.productId;
@@ -67,41 +90,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 
     const quantity = Number(quantitySelect.value);
 
-    let matchingItem;
-
-    cart.forEach((item) => {
-      if (productID === item.productID) {
-        matchingItem = item; //both variables point to the same object in the cart
-      }
-    });
-
-    if (matchingItem) {
-      matchingItem.quantity += quantity; //so this is the changing the qunatity in the main cart
-    } else {
-      cart.push({
-        productID: productID,
-        quantity: quantity,
-      });
-    }
-
-    let cartQuantity = 0;
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
-    });
-
-    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-
-    console.log(quantity);
-    console.log(cart);
-
-    const productContainer = button.closest(".product-container");
-
-    const addedMessage = productContainer.querySelector(".added-to-cart");
-
-    addedMessage.style.opacity = 1;
-
-    setTimeout(() => {
-      addedMessage.style.opacity = 0;
-    }, 2000);
+    addToCart(productID, quantity);
+    updateCartQuantity(quantity, button);
   });
 });
