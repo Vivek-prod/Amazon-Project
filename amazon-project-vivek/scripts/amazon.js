@@ -43,8 +43,35 @@ products.forEach((product) => {
                     Added
                 </div>
 
-                <button class="add-to-cart-button button-primary">Add to Cart</button>
+                <button class="add-to-cart-button button-primary js-add-to-cart" data-product-name='${product.name}'>Add to Cart</button>
             </div>`;
 });
 
+//geenerate html
+
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
+
+//add item to cart
+
+document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+  button.addEventListener("click", () => {
+    const productName = button.dataset.productName;
+
+    let matchingItem;
+    cart.forEach((item) => {
+      if (productName === item.productName) {
+        matchingItem = item; //both variables point to the same object in the cart
+      }
+    });
+
+    if (matchingItem) {
+      matchingItem.quantity += 1; //so this is the changing the qunatity in the main cart
+    } else {
+      cart.push({
+        productName: productName,
+        quantity: 1,
+      });
+    }
+    console.log(cart);
+  });
+});
