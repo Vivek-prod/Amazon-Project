@@ -1,4 +1,5 @@
 // ALL THE PRODUCTS ARE LOADED FROM PRODUCT.JS
+import { cart } from "../data/cart.js";
 
 let productsHTML = "";
 
