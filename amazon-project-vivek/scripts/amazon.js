@@ -21,7 +21,7 @@ products.forEach((product) => {
 
                 <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
 
-                <div class="product-quantity-container">
+                <div class="product-quantity-container js-product-quantity">
                     <select>
                         <option selected value="1">1</option>
                         <option value="2">2</option>
@@ -43,7 +43,7 @@ products.forEach((product) => {
                     Added
                 </div>
 
-                <button class="add-to-cart-button button-primary js-add-to-cart" data-product-name='${product.name}'>Add to Cart</button>
+                <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id='${product.id}'>Add to Cart</button>
             </div>`;
 });
 
@@ -52,14 +52,14 @@ products.forEach((product) => {
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
 //add item to cart
-
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
-    const productName = button.dataset.productName;
+    const productID = button.dataset.productId;
 
     let matchingItem;
+
     cart.forEach((item) => {
-      if (productName === item.productName) {
+      if (productID === item.productID) {
         matchingItem = item; //both variables point to the same object in the cart
       }
     });
@@ -68,7 +68,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
       matchingItem.quantity += 1; //so this is the changing the qunatity in the main cart
     } else {
       cart.push({
-        productName: productName,
+        productID: productID,
         quantity: 1,
       });
     }
