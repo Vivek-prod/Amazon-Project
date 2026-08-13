@@ -1,6 +1,8 @@
 // ALL THE PRODUCTS ARE LOADED FROM PRODUCT.JS
 import { cart } from "../data/cart.js";
 
+import { products } from "../data/products.js";
+
 let productsHTML = "";
 
 products.forEach((product) => {
