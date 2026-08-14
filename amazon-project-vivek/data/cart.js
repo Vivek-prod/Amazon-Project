@@ -1,19 +1,23 @@
-export let cart = [
-  {
-    productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    quantity: 2,
-  },
-  {
-    productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-    quantity: 1,
-  },
-];
+export let cart = JSON.parse(localStorage.getItem("cart"));
+
+if (!cart) {
+  cart = [
+    {
+      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      quantity: 2,
+    },
+    {
+      productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+      quantity: 1,
+    },
+  ];
+}
 
 export function addToCart(productID, quantity) {
   let matchingItem;
 
   cart.forEach((cartItem) => {
-    if (productID === cartItem.productID) {
+    if (productID === cartItem.productId) {
       matchingItem = cartItem; //both variables point to the same object in the cart
     }
   });
@@ -22,10 +26,12 @@ export function addToCart(productID, quantity) {
     matchingItem.quantity += quantity; //so this is the changing the qunatity in the main cart
   } else {
     cart.push({
-      productID: productID,
+      productId: productID,
       quantity: quantity,
     });
   }
+
+  saveToStorage();
 }
 
 export function removeFromCart(productId) {
@@ -38,4 +44,10 @@ export function removeFromCart(productId) {
   });
 
   cart = newCart;
+
+  saveToStorage();
+}
+
+export function saveToStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
 }
