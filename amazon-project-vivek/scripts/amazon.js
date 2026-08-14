@@ -1,5 +1,5 @@
 // ALL THE PRODUCTS ARE LOADED FROM PRODUCT.JS
-import { cart, addToCart } from "../data/cart.js";
+import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
 
 import { products } from "../data/products.js";
 
@@ -74,15 +74,6 @@ function showAddedToCartMessage(button) {
   setTimeout(() => {
     addedMessage.style.opacity = 0;
   }, 2000);
-}
-
-function calculateCartQuantity() {
-  let cartQuantity = 0;
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
-
-  return cartQuantity;
 }
 
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
