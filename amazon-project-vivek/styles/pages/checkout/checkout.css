@@ -45,12 +45,11 @@
 }
 
 .payment-summary{
-    padding-bottom: 5px;
+    padding-bottom: 10px;
 }
 
 @media (max-width:1000px){
     .payment-summary{
-
         grid-row: 1;
         margin-bottom: 12px;
     }
@@ -68,7 +67,7 @@
     display: grid;
 
     grid-template-columns: 100px 1fr 1fr;
-    column-gap: 30px;
+    column-gap: 25px;
 }
 
 @media(max-width:1000px){
@@ -88,7 +87,7 @@
 
 .product-name{
     font-weight: 700;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .product-price{
