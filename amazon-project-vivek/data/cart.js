@@ -45,6 +45,13 @@ export function removeFromCart(productId) {
 
   cart = newCart;
 
+  let totalQuantity = 0;
+
+  cart.forEach((cartItem) => {
+    totalQuantity += cartItem.quantity;
+  });
+  document.querySelector(".js-item-in-cart").innerHTML = totalQuantity;
+
   saveToStorage();
 }
 

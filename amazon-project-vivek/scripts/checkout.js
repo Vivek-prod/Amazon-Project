@@ -6,8 +6,12 @@ import { formatCurrency } from "./utils/money.js";
 
 let cartSummaryHTML = "";
 
+let cartQuantity = 0;
+
 cart.forEach((cartItem) => {
   const productId = cartItem.productId;
+
+  cartQuantity += cartItem.quantity;
 
   let matchingProduct;
 
@@ -73,6 +77,11 @@ cart.forEach((cartItem) => {
     `;
 });
 
+let totalItem = document.querySelector(".js-item-in-cart");
+totalItem.innerHTML = cartQuantity;
+
+// document.querySelector("js-cart-quantity").innerHTML = cartQuantity;
+
 document.querySelector(".js-order-summary").innerHTML += cartSummaryHTML;
 
 document.querySelectorAll(".js-delete-link").forEach((link) => {
@@ -84,8 +93,6 @@ document.querySelectorAll(".js-delete-link").forEach((link) => {
     const container = document.querySelector(
       `.js-cart-item-container-${productId}`,
     );
-
-    console.log(container);
 
     container.remove();
   });
