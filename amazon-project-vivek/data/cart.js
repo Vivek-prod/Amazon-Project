@@ -72,3 +72,16 @@ export function calculateCartQuantity() {
 
   return cartQuantity;
 }
+
+export function updateQuantity(productId, newQuantity) {
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      cartItem.quantity = newQuantity;
+    }
+  });
+
+  document.querySelector(".js-item-in-cart").innerHTML =
+    calculateCartQuantity();
+
+  saveToStorage();
+}

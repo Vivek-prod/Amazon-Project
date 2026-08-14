@@ -1,4 +1,4 @@
-import { cart, removeFromCart } from "../data/cart.js";
+import { cart, removeFromCart, updateQuantity } from "../data/cart.js";
 
 import { products } from "../data/products.js";
 
@@ -38,10 +38,10 @@ cart.forEach((cartItem) => {
                                 <span>
                                     Quantity: <span class="quantity-label">${cartItem.quantity}</span>
                                 </span>
-                                <input class='quantity-input'>
+                                <input class='quantity-input' type="number" value=${cartItem.quantity}>
                                 <span class="update-quantity-link link-primary js-update-link" data-product-id='${matchingProduct.id}'>Update</span>
                                 
-                                <span class='save-quantity-link link-primary js-save-link'>Save</span>
+                                <span class='save-quantity-link link-primary js-save-link' data-product-id='${matchingProduct.id}'>Save</span>
                                 <span class="delete-quantity-link link-primary js-delete-link" data-product-id='${matchingProduct.id}'>Delete</span>
                             </div>
                         </div>
@@ -116,7 +116,17 @@ document.querySelectorAll(".js-update-link").forEach((link) => {
 
 document.querySelectorAll(".js-save-link").forEach((link) => {
   link.addEventListener("click", () => {
+    const productId = link.dataset.productId;
+
     const container = link.closest(".cart-item-container");
+
+    const input = container.querySelector(".quantity-input");
+    const quantityLabel = container.querySelector(".quantity-label");
+    const newQuantity = Number(input.value);
+    quantityLabel.innerHTML = newQuantity;
+
+    updateQuantity(productId, newQuantity);
+
     container.classList.remove("is-editing-quantity");
   });
 });
