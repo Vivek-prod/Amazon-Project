@@ -81,3 +81,10 @@ select:focus,input:focus{
     background-color: rgb(213,253,255);
     box-shadow: none;
 }
+
+.limit-text-to-2-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
