@@ -1,4 +1,4 @@
-import formatCurrency from "../amazon-project-vivek/scripts/utils/money.js";
+import formatCurrency from "../../amazon-project-vivek/scripts/utils/money.js";
 
 describe("test suite : formatCurrency", () => {
   it("convert cents into dollars", () => {
