@@ -1,6 +1,6 @@
-import { renderOrderSummary } from "../../amazon-project-vivek/scripts/Checkout/orderSummary.js";
+import { renderOrderSummary } from "../../scripts/Checkout/orderSummary.js";
 
-import { loadFromStorage, cart } from "../../amazon-project-vivek/data/cart.js";
+import { loadFromStorage, cart } from "../../data/cart.js";
 
 describe("test suite: renderOrderSummary", () => {
   const productId1 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";

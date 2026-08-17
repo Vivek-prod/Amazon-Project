@@ -1,8 +1,4 @@
-import {
-  addToCart,
-  cart,
-  loadFromStorage,
-} from "../../amazon-project-vivek/data/cart.js";
+import { addToCart, cart, loadFromStorage } from "../../data/cart.js";
 
 describe("test suite: addToCart", () => {
   it("add an existing product to the cart", () => {
