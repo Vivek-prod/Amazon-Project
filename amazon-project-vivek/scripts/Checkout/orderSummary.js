@@ -69,7 +69,7 @@ export function renderOrderSummary() {
     const dateString = deliverDate.format("dddd, MMMM D");
 
     cartSummaryHTML += `
-          <div class="cart-item-container js-cart-item-container-${matchingProduct.id}" data-product-id='${matchingProduct.id}'>
+          <div class="cart-item-container js-cart-item-container js-cart-item-container-${matchingProduct.id}" data-product-id='${matchingProduct.id}'>
                           <div class="delivery-date js-delivery-date">Delivery date: ${dateString}</div>
 
                           <div class="cart-item-details-grid">
