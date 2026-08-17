@@ -17,12 +17,7 @@ import {
   deliveryOptions,
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
-
-hello();
-
-const today = dayjs();
-const deliverDate = today.add(7, "days");
-console.log(deliverDate.format("dddd, MMMM D"));
+import { rederPaymentSummary } from "./paymentSummary.js";
 
 function deliveryOptionsHTML(matchingProduct, cartItem) {
   let html = "";
@@ -131,6 +126,8 @@ export function renderOrderSummary() {
       );
 
       container.remove();
+
+      rederPaymentSummary();
     });
   });
 
@@ -160,6 +157,8 @@ export function renderOrderSummary() {
       updateQuantity(productId, newQuantity);
 
       container.classList.remove("is-editing-quantity");
+
+      rederPaymentSummary();
     });
   });
 
@@ -168,6 +167,7 @@ export function renderOrderSummary() {
       const { productId, deliveryOptionId } = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderOrderSummary();
+      rederPaymentSummary();
     });
   });
 }
