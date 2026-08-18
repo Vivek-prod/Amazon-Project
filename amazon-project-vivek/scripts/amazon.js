@@ -1,11 +1,9 @@
 // ALL THE PRODUCTS ARE LOADED FROM PRODUCT.JS
 import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
 
-import { products, loadProducts } from "../data/products.js";
+import { products, loadProductsFetch } from "../data/products.js";
 
 import { formatCurrency } from "./utils/money.js";
-
-loadProducts(renderProductsGrid);
 
 function renderProductsGrid() {
   let productsHTML = "";
@@ -59,27 +57,9 @@ function renderProductsGrid() {
 
   //geenerate html
 
-  document.querySelector(".js-products-grid").innerHTML = productsHTML;
+  document.querySelector(".js-products-grid").innerHTML += productsHTML;
 
   //add item to cart
-
-  function updateHeaderCartQuantity() {
-    let cartQuantity = 0;
-    cart.forEach((cartItem) => {
-      cartQuantity += cartItem.quantity;
-    });
-
-    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-  }
-
-  function showAddedToCartMessage(button) {
-    const productContainer = button.closest(".product-container");
-    const addedMessage = productContainer.querySelector(".added-to-cart");
-    addedMessage.style.opacity = 1;
-    setTimeout(() => {
-      addedMessage.style.opacity = 0;
-    }, 2000);
-  }
 
   document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener("click", () => {
@@ -101,4 +81,27 @@ function renderProductsGrid() {
 
   document.querySelector(".js-cart-quantity").innerHTML =
     calculateCartQuantity();
+}
+
+loadProductsFetch().then(() => {
+  //completed the promise
+  renderProductsGrid();
+});
+
+function updateHeaderCartQuantity() {
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+}
+
+function showAddedToCartMessage(button) {
+  const productContainer = button.closest(".product-container");
+  const addedMessage = productContainer.querySelector(".added-to-cart");
+  addedMessage.style.opacity = 1;
+  setTimeout(() => {
+    addedMessage.style.opacity = 0;
+  }, 2000);
 }
