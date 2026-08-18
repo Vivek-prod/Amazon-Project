@@ -5,7 +5,7 @@ import {
   updateDeliveryOption,
 } from "../../data/cart.js"; //named export
 
-import { products, getProduct } from "../../data/products.js";
+import { products, getProduct, loadProducts } from "../../data/products.js";
 
 import { formatCurrency } from "../utils/money.js";
 
@@ -17,6 +17,7 @@ import {
   deliveryOptions,
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
+
 import { rederPaymentSummary } from "./paymentSummary.js";
 
 function deliveryOptionsHTML(matchingProduct, cartItem) {
