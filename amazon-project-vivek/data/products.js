@@ -95,6 +95,34 @@ object3.method();
 
 export let products = [];
 
+export function loadProductsFetch() {
+  //by default get request
+  //fetch creaeted a promise
+  const promise = fetch("https://supersimplebackend.dev/products")
+    .then((response) => {
+      return response.json(); //response.json is asynchronous //response.json returns a promise
+    })
+    //this return will be the parameter for next step
+    .then((productsData) => {
+      products = productsData.map((productDetails) => {
+        if (productDetails.type === "clothing") {
+          return new Clothing(productDetails);
+        }
+        return new Product(productDetails);
+      });
+
+      console.log("load products");
+    });
+
+  return promise;
+}
+
+loadProductsFetch().then(() => {
+  console.log("next step");
+});
+
+/*
+
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
   xhr.addEventListener("load", () => {
@@ -109,9 +137,11 @@ export function loadProducts(fun) {
     fun();
   });
 
-  xhr.open("GET", "https://supersimplebackend.dev/products");
+  xhr.open("GET", "https://supersimplebackend.dev/products"); //it is a get request
   xhr.send();
 }
+
+*/
 
 /*
 export const products = [
