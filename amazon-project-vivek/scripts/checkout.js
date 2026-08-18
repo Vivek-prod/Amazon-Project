@@ -7,6 +7,26 @@ import { rederPaymentSummary } from "./Checkout/paymentSummary.js";
 
 // import "../data/backend-practice.js";
 
+async function loadPage() {
+  await loadProductsFetch(); //let us get the response from the backend and hence we dont need to use .then
+
+  await new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  });
+
+  renderOrderSummary();
+  rederPaymentSummary();
+
+  return "value2"; //this value is saved as a parameter in the next step like in resolve(parameter)
+}
+
+//async returns a promise
+
+loadPage();
+
+/*
 Promise.all([
   loadProductsFetch(), //this returns a promise
 
@@ -20,6 +40,8 @@ Promise.all([
   renderOrderSummary();
   rederPaymentSummary();
 });
+
+*/
 
 /*
 
