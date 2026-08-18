@@ -1,16 +1,17 @@
 import { addToCart } from "./cart.js";
 
 class Cart {
-  cartItems; //it is added as a property to class
-  localStorageKey;
+  cartItems; //it is a public property
+  #localStorageKey; //now this is a private property only can be used inside cart
 
   constructor(localStorageKey) {
-    this.localStorageKey = localStorageKey;
-    this.loadFromStorage();
+    this.#localStorageKey = localStorageKey;
+    this.#loadFromStorage();
   }
 
-  loadFromStorage() {
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
+  //   THIS METHOD IS PRIVATE NOW
+  #loadFromStorage() {
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
 
     if (!this.cartItems) {
       this.cartItems = [
@@ -29,7 +30,7 @@ class Cart {
   }
 
   saveToStorage() {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
 
   addToCart(productID, quantity) {
@@ -113,5 +114,4 @@ const buisnessCart = new Cart("buisness-cart");
 
 console.log(cart);
 console.log(buisnessCart);
-
 console.log(buisnessCart instanceof Cart);
