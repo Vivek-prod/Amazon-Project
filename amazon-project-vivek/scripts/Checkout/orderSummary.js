@@ -3,6 +3,7 @@ import {
   removeFromCart,
   updateQuantity,
   updateDeliveryOption,
+  calculateCartQuantity,
 } from "../../data/cart.js"; //named export
 
 import { products, getProduct } from "../../data/products.js";
@@ -49,27 +50,37 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
   return html;
 }
 
+let showProductsHTML;
+
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
 
   let cartQuantity = 0;
+  if (calculateCartQuantity() === 0) {
+    showProductsHTML = `<div>Your cart is empty</div>
+    <a href=''home.html>
+    <button class="show-products-button button-primary js-show-products" >
+    Show Products</button>
+    </a>`;
 
-  cart.forEach((cartItem) => {
-    const productId = cartItem.productId;
+    cartSummaryHTML += showProductsHTML;
+  } else {
+    cart.forEach((cartItem) => {
+      const productId = cartItem.productId;
 
-    cartQuantity += cartItem.quantity;
+      cartQuantity += cartItem.quantity;
 
-    const matchingProduct = getProduct(productId);
+      const matchingProduct = getProduct(productId);
 
-    const deliveryOptionId = cartItem.deliveryOptionId;
+      const deliveryOptionId = cartItem.deliveryOptionId;
 
-    const deliveryOption = getDeliveryOption(deliveryOptionId);
+      const deliveryOption = getDeliveryOption(deliveryOptionId);
 
-    const today = dayjs();
-    const deliverDate = today.add(deliveryOption.deliveryDays, "days");
-    const dateString = deliverDate.format("dddd, MMMM D");
+      const today = dayjs();
+      const deliverDate = today.add(deliveryOption.deliveryDays, "days");
+      const dateString = deliverDate.format("dddd, MMMM D");
 
-    cartSummaryHTML += `
+      cartSummaryHTML += `
           <div class="cart-item-container js-cart-item-container js-cart-item-container-${matchingProduct.id}" data-product-id='${matchingProduct.id}'>
                           <div class="delivery-date js-delivery-date">Delivery date: ${dateString}</div>
 
@@ -103,11 +114,9 @@ export function renderOrderSummary() {
                               </div>
                           </div>  
                       </div>
-          
-          
-          
           `;
-  });
+    });
+  }
 
   let totalItem = document.querySelector(".js-item-in-cart");
   totalItem.innerHTML = cartQuantity;

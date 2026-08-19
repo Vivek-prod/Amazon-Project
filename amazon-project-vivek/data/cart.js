@@ -2,6 +2,11 @@ export let cart;
 
 loadFromStorage();
 
+export function clearCart() {
+  cart = [];
+  saveToStorage();
+}
+
 export function loadFromStorage() {
   cart = JSON.parse(localStorage.getItem("cart"));
 

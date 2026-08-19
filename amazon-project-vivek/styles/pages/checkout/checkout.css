@@ -170,7 +170,7 @@
     padding-top: 18px;
 }
 
-.place-order-button{
+.place-order-button,.show-products-button{
     width: 100%;
     padding-top: 12px;
     padding-bottom: 12px;
@@ -197,4 +197,10 @@
 .is-editing-quantity .quantity-label,
 .is-editing-quantity .js-update-link{
     display: none;
+}
+
+
+.payment-buttons-disabled{
+    pointer-events: none;
+    opacity: 0.5;
 }

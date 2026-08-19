@@ -1,12 +1,23 @@
-import { calculateCartQuantity, cart } from "../../data/cart.js";
+import { calculateCartQuantity, cart, clearCart } from "../../data/cart.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import { addOrder, orders } from "../../data/orders.js";
 
 import { getProduct } from "../../data/products.js";
 
 import formatCurrency from "../utils/money.js";
+import { renderOrderSummary } from "./orderSummary.js";
+
+let orderButtonHTML;
 
 export function rederPaymentSummary() {
+  if (calculateCartQuantity() === 0) {
+    orderButtonHTML = `<button class="place-order-button button-primary js-place-order payment-buttons-disabled" disabled>
+    Place Order</button>`;
+  } else {
+    orderButtonHTML = `<button class="place-order-button button-primary js-place-order" >
+    Place Order</button>`;
+  }
+
   let productPriceCents = 0;
   let shippingPriceCents = 0;
 
@@ -54,33 +65,45 @@ export function rederPaymentSummary() {
         <div class="payment-summary-money">$${formatCurrency(totalCents)}</div>
     </div>
 
-    <button class="place-order-button button-primary js-place-order">Place your order</button>
+    ${orderButtonHTML}
   
   `;
 
   document.querySelector(".js-payment-summary").innerHTML = paymentSummaryHTML;
 
-  document
-    .querySelector(".js-place-order")
-    .addEventListener("click", async () => {
-      try {
-        const response = await fetch("https://supersimplebackend.dev/orders", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            cart: cart,
-          }),
-        });
+  if (calculateCartQuantity() > 0) {
+    document
+      .querySelector(".js-place-order")
+      .addEventListener("click", async () => {
+        try {
+          const response = await fetch(
+            "https://supersimplebackend.dev/orders",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                cart: cart,
+              }),
+            },
+          );
 
-        const order = await response.json();
-        console.log(order);
+          const order = await response.json();
 
-        addOrder(order);
-        window.location.href = "orders.html";
-      } catch (error) {
-        console.log("unexpected error", error);
-      }
-    });
+          addOrder(order);
+
+          clearCart();
+          renderOrderSummary();
+          rederPaymentSummary();
+
+          console.log(cart);
+
+          // window.location.href = "orders.html";
+        } catch (error) {
+          console.log("unexpected error", error);
+        }
+      });
+  }
 }
+console.log(cart);
