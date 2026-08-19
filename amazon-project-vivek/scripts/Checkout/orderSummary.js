@@ -50,25 +50,16 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
   return html;
 }
 
-let showProductsHTML;
-
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
 
-  let cartQuantity = 0;
   if (calculateCartQuantity() === 0) {
-    showProductsHTML = `<div>Your cart is empty.</div>
-    <a href='home.html'>
-      <button class="show-products-button button-primary js-show-products" >
-    View Products</button>
-    </a>`;
-
-    cartSummaryHTML += showProductsHTML;
+    cartSummaryHTML = `<div>Your cart is empty.</div>
+      <a class="button-primary show-products" href="home.html">
+    View Products</a>`;
   } else {
     cart.forEach((cartItem) => {
       const productId = cartItem.productId;
-
-      cartQuantity += cartItem.quantity;
 
       const matchingProduct = getProduct(productId);
 
@@ -119,7 +110,7 @@ export function renderOrderSummary() {
   }
 
   let totalItem = document.querySelector(".js-item-in-cart");
-  totalItem.innerHTML = cartQuantity;
+  totalItem.innerHTML = calculateCartQuantity();
 
   // document.querySelector("js-cart-quantity").innerHTML = cartQuantity;
 
@@ -130,13 +121,14 @@ export function renderOrderSummary() {
       const productId = link.dataset.productId;
 
       removeFromCart(productId);
-
+      /*
       const container = document.querySelector(
         `.js-cart-item-container-${productId}`,
       );
 
       container.remove();
-
+*/
+      renderOrderSummary();
       rederPaymentSummary();
     });
   });

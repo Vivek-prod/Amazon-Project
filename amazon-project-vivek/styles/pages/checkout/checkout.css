@@ -205,10 +205,11 @@
     opacity: 0.5;
 }
 
-.show-products-button{
+.show-products{
     width: auto;
     padding: 8px 15px;
     margin-top: 10px;
     display: inline-block;
     font-size: 16px;
+    text-decoration: none;
 }
