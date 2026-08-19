@@ -8,13 +8,23 @@ import { rederPaymentSummary } from "./Checkout/paymentSummary.js";
 // import "../data/backend-practice.js";
 
 async function loadPage() {
-  await loadProductsFetch(); //let us get the response from the backend and hence we dont need to use .then
+  try {
+    // throw "error1";
 
-  await new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
+    await loadProductsFetch(); //let us get the response from the backend and hence we dont need to use .then
+
+    const value = await new Promise((resolve, reject) => {
+      // throw "error2";
+
+      loadCart(() => {
+        // reject("error3");
+
+        resolve("value3");
+      });
     });
-  });
+  } catch (error) {
+    console.log("unexpected error, please try again later");
+  }
 
   renderOrderSummary();
   rederPaymentSummary();
@@ -38,6 +48,7 @@ Promise.all([
 ]).then((values) => {
   console.log(values);
   renderOrderSummary();
+  
   rederPaymentSummary();
 });
 
@@ -77,3 +88,12 @@ loadProducts(() => {
 */
 
 //there is less nesting in promise which is better than using callback
+
+/*
+try {
+  doesnotexist();
+  console.log("next line"); //will be skipped if there is an error
+} catch (error) {
+  console.log("error");
+}
+*/
