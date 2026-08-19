@@ -57,10 +57,10 @@ export function renderOrderSummary() {
 
   let cartQuantity = 0;
   if (calculateCartQuantity() === 0) {
-    showProductsHTML = `<div>Your cart is empty</div>
-    <a href=''home.html>
-    <button class="show-products-button button-primary js-show-products" >
-    Show Products</button>
+    showProductsHTML = `<div>Your cart is empty.</div>
+    <a href='home.html'>
+      <button class="show-products-button button-primary js-show-products" >
+    View Products</button>
     </a>`;
 
     cartSummaryHTML += showProductsHTML;

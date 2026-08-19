@@ -106,4 +106,3 @@ export function rederPaymentSummary() {
       });
   }
 }
-console.log(cart);
