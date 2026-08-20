@@ -99,7 +99,7 @@ export function rederPaymentSummary() {
 
           console.log(cart);
 
-          // window.location.href = "orders.html";
+          window.location.href = "orders.html";
         } catch (error) {
           console.log("unexpected error", error);
         }

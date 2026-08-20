@@ -2,6 +2,7 @@
 import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
 
 import { products, loadProductsFetch } from "../data/products.js";
+import { updateHeaderCartQuantity } from "./utils/headerCart.js";
 
 import { formatCurrency } from "./utils/money.js";
 
@@ -87,15 +88,6 @@ loadProductsFetch().then(() => {
   //completed the promise
   renderProductsGrid();
 });
-
-function updateHeaderCartQuantity() {
-  let cartQuantity = 0;
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
-
-  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-}
 
 function showAddedToCartMessage(button) {
   const productContainer = button.closest(".product-container");

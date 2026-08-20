@@ -1,15 +1,16 @@
 import { orders } from "../data/orders.js";
-
-console.log(orders);
-
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import formatCurrency from "./utils/money.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
+
+import { addToCart, calculateCartQuantity } from "../data/cart.js";
+import { updateHeaderCartQuantity } from "./utils/headerCart.js";
 
 async function loadPage() {
   await loadProductsFetch();
 
   renderOrders();
+  updateHeaderCartQuantity();
 }
 
 function renderOrders() {
@@ -19,7 +20,7 @@ function renderOrders() {
     const orderDate = dayjs(order.orderTime);
     const formattedDate = orderDate.format("dddd D");
     const formattedTotalCost = formatCurrency(order.totalCostCents);
-    orderHistoryHTML += `
+    orderHistoryHTML = `
     <div class="order-container">
 
         <div class="order-header">
@@ -32,7 +33,7 @@ function renderOrders() {
 
                 <div class="order-total">
                     <div class="order-header-label">Total:</div>
-                    <div>${formattedTotalCost}</div>
+                    <div>$${formattedTotalCost}</div>
                 </div>
             </div>
 
@@ -49,7 +50,15 @@ function renderOrders() {
     // console.log(formattedTotalCost);
     // console.log(order.id);
 
-    document.querySelector(".orders-grid").innerHTML = orderHistoryHTML;
+    document.querySelector(".orders-grid").innerHTML += orderHistoryHTML;
+  });
+
+  document.querySelectorAll(".js-buy-again").forEach((button) => {
+    button.addEventListener("click", () => {
+      const productId = button.dataset.productId;
+      addToCart(productId, 1);
+      loadPage();
+    });
   });
 }
 
@@ -74,14 +83,14 @@ function renderPlacedProducts(order) {
                     ${matchingProduct.name}
                 </div>
                 <div class="product-delivery-date">
-                    ${dayjs(product.estimatedDeliveryTime).format("dddd, MMMM D")}
+                    Arriving on:${dayjs(product.estimatedDeliveryTime).format("dddd, MMMM D")}
                 </div>
                 <div class="product-quantity">
                     Quantity: ${product.quantity}
                 </div>
-                <button class="buy-again-button button-primary">
+                <button class="buy-again-button button-primary js-buy-again" data-product-id=${product.productId}>
                     <img class="buy-again-icon" src="images/icons/buy-again.png" >
-                    <span class="buy-again-message">Buy it again</span>
+                    <span class="buy-again-message " >Buy it again</span>
                 </button>
 
             </div>
@@ -93,6 +102,7 @@ function renderPlacedProducts(order) {
             </div>
         </div>`;
   });
+
   return placedProductsHTML;
 }
 
