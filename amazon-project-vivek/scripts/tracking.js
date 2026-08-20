@@ -1,40 +1,38 @@
 import { getOrders, orders } from "../data/orders.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+import { updateHeaderCartQuantity } from "./utils/headerCart.js";
 
 const url = new URL(window.location.href);
 const orderId = url.searchParams.get("orderId");
 const productId = url.searchParams.get("productId");
 
-let trackingHTML = "";
+let trackingHTML = ``;
 
 console.log(orders);
 const order = getOrders(orderId);
 console.log(order);
 
-function productDetails() {
-  const matchingProduct = order.products.find((product) => {
-    return product.productId === productId;
-  });
-  return matchingProduct;
-}
-
 async function loadPage() {
   await loadProductsFetch();
   loadTracking();
+  updateHeaderCartQuantity();
 }
 
 loadPage();
 
 function loadTracking() {
   const productTracked = getProduct(productId);
-  console.log(productTracked);
-  const matchingProduct = productDetails();
+
+  const matchingProduct = order.products.find((product) => {
+    return product.productId === productId;
+  });
+
   const arrivingDate = dayjs(matchingProduct.estimatedDeliveryTime).format(
     "dddd, MMMM D",
   );
-  console.log(matchingProduct);
-  const qunatity = matchingProduct.quantity;
+
+  const quantity = matchingProduct.quantity;
 
   trackingHTML = `
             <a class="back-to-orders-link link-primary" href="orders.html">
@@ -50,7 +48,7 @@ function loadTracking() {
             </div>
 
             <div class="product-info">
-                Quantity: ${qunatity}
+                Quantity: ${quantity}
             </div>
 
             <img class="product-image" src="${productTracked.image}">
