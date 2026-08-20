@@ -103,7 +103,7 @@
 
 @media (max-width: 450px){
     .order-details-grid{
-        grid-template-column: 1fr;
+        grid-template-columns: 1fr;
     }
 }
 
@@ -121,7 +121,7 @@
     margin-bottom: 5px;
 }
 
-.product-delivery-time{   
+.product-delivery-date{   
     margin-bottom: 3px;
 }
 

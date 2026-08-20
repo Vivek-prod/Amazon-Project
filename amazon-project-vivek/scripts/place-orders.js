@@ -19,36 +19,29 @@ function renderOrders() {
     const orderDate = dayjs(order.orderTime);
     const formattedDate = orderDate.format("dddd D");
     const formattedTotalCost = formatCurrency(order.totalCostCents);
-    orderHistoryHTML = `
+    orderHistoryHTML += `
     <div class="order-container">
 
         <div class="order-header">
 
-                <div class="order-header-left-section">
-                    <div class="order-date">
-                            <div class="order-header-label">Order Placed:</div>
-                            <div>${formattedDate}</div>
-                    </div>
-
-                    <div class="order-total">
-                            <div class="order-header-label">Total:</div>
-                            <div>${formattedTotalCost}</div>
-                    </div>
-                    </div>
-
-                    <div class="order-header-right-section">
-                        <div class="order-header-label">Order ID:</div>
-                        <div>${order.id}</div>
-                    </div>
+            <div class="order-header-left-section">
+                <div class="order-date">
+                    <div class="order-header-label">Order Placed:</div>
+                    <div>${formattedDate}</div>
                 </div>
 
+                <div class="order-total">
+                    <div class="order-header-label">Total:</div>
+                    <div>${formattedTotalCost}</div>
+                </div>
+            </div>
+
+            <div class="order-header-right-section">
+                <div class="order-header-label">Order ID:</div>
+                <div>${order.id}</div>
+            </div>
         </div>
-
         ${renderPlacedProducts(order)}
-
-        
-
-        
     </div>`;
 
     // console.log(order);
@@ -56,7 +49,7 @@ function renderOrders() {
     // console.log(formattedTotalCost);
     // console.log(order.id);
 
-    document.querySelector(".orders-grid").innerHTML += orderHistoryHTML;
+    document.querySelector(".orders-grid").innerHTML = orderHistoryHTML;
   });
 }
 
@@ -67,7 +60,6 @@ function renderPlacedProducts(order) {
 
   placedProducts.forEach((product) => {
     const matchingProduct = getProduct(product.productId);
-    console.log(matchingProduct);
 
     placedProductsHTML += `
         <div class="order-details-grid">
@@ -98,7 +90,8 @@ function renderPlacedProducts(order) {
                 <a href="tracking.html">
                     <button class="track-package-button button-secondary">Track package</button>
                 </a>
-            </div>`;
+            </div>
+        </div>`;
   });
   return placedProductsHTML;
 }
