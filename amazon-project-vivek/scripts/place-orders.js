@@ -3,7 +3,7 @@ import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import formatCurrency from "./utils/money.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
 
-import { addToCart, calculateCartQuantity } from "../data/cart.js";
+import { addToCart } from "../data/cart.js";
 import { updateHeaderCartQuantity } from "./utils/headerCart.js";
 
 async function loadPage() {
@@ -20,7 +20,8 @@ function renderOrders() {
     const orderDate = dayjs(order.orderTime);
     const formattedDate = orderDate.format("dddd D");
     const formattedTotalCost = formatCurrency(order.totalCostCents);
-    orderHistoryHTML = `
+
+    orderHistoryHTML += `
     <div class="order-container">
 
         <div class="order-header">
@@ -44,20 +45,17 @@ function renderOrders() {
         </div>
         ${renderPlacedProducts(order)}
     </div>`;
-
-    // console.log(order);
-    // console.log(formattedDate);
-    // console.log(formattedTotalCost);
-    // console.log(order.id);
-
-    document.querySelector(".orders-grid").innerHTML += orderHistoryHTML;
   });
+  document.querySelector(".orders-grid").innerHTML = orderHistoryHTML;
 
   document.querySelectorAll(".js-buy-again").forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
+
       addToCart(productId, 1);
-      loadPage();
+      updateHeaderCartQuantity();
+
+      addedMessage(button);
     });
   });
 }
@@ -88,9 +86,9 @@ function renderPlacedProducts(order) {
                 <div class="product-quantity">
                     Quantity: ${product.quantity}
                 </div>
-                <button class="buy-again-button button-primary js-buy-again" data-product-id=${product.productId}>
+                <button class="buy-again-button button-primary js-buy-again" data-product-id="${product.productId}">
                     <img class="buy-again-icon" src="images/icons/buy-again.png" >
-                    <span class="buy-again-message " >Buy it again</span>
+                    <span class="buy-again-message " >Buy it again</span>  
                 </button>
 
             </div>
@@ -107,3 +105,16 @@ function renderPlacedProducts(order) {
 }
 
 loadPage();
+
+function addedMessage(button) {
+  button.classList.add("is-added");
+  button.innerHTML = "✓ Added";
+
+  clearTimeout(button.timeoutId);
+  button.timeoutId = setTimeout(() => {
+    button.classList.remove("is-added");
+    button.innerHTML = `
+                <img class="buy-again-icon" src="images/icons/buy-again.png" >
+                <span class="buy-again-message " >Buy it again</span>  `;
+  }, 2000);
+}
