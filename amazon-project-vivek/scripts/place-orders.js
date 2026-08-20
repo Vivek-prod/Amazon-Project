@@ -58,6 +58,14 @@ function renderOrders() {
       addedMessage(button);
     });
   });
+
+  document.querySelectorAll(".js-track-button").forEach((track) => {
+    track.addEventListener("click", () => {
+      const productId = track.dataset.productId;
+      const orderId = track.dataset.orderId;
+      window.location.href = `tracking.html?orderId=${orderId}&productId=${productId}`;
+    });
+  });
 }
 
 function renderPlacedProducts(order) {
@@ -94,13 +102,11 @@ function renderPlacedProducts(order) {
             </div>
 
             <div class="product-actions">
-                <a href="tracking.html">
-                    <button class="track-package-button button-secondary">Track package</button>
-                </a>
+                    <button class="track-package-button button-secondary js-track-button" data-product-id="${product.productId}" data-order-id="${order.id}">
+                    Track package</button>
             </div>
         </div>`;
   });
-
   return placedProductsHTML;
 }
 
@@ -118,3 +124,5 @@ function addedMessage(button) {
                 <span class="buy-again-message " >Buy it again</span>  `;
   }, 2000);
 }
+
+console.log(orders);
