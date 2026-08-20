@@ -4,7 +4,13 @@ console.log(orders);
 
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import formatCurrency from "./utils/money.js";
-import { getProduct } from "../data/products.js";
+import { getProduct, loadProductsFetch } from "../data/products.js";
+
+async function loadPage() {
+  await loadProductsFetch();
+
+  renderOrders();
+}
 
 function renderOrders() {
   let orderHistoryHTML = "";
@@ -13,8 +19,7 @@ function renderOrders() {
     const orderDate = dayjs(order.orderTime);
     const formattedDate = orderDate.format("dddd D");
     const formattedTotalCost = formatCurrency(order.totalCostCents);
-
-    orderHistoryHTML += `
+    orderHistoryHTML = `
     <div class="order-container">
 
         <div class="order-header">
@@ -46,10 +51,12 @@ function renderOrders() {
         
     </div>`;
 
-    console.log(order);
-    console.log(formattedDate);
-    console.log(formattedTotalCost);
-    console.log(order.id);
+    // console.log(order);
+    // console.log(formattedDate);
+    // console.log(formattedTotalCost);
+    // console.log(order.id);
+
+    document.querySelector(".orders-grid").innerHTML += orderHistoryHTML;
   });
 }
 
@@ -62,23 +69,23 @@ function renderPlacedProducts(order) {
     const matchingProduct = getProduct(product.productId);
     console.log(matchingProduct);
 
-    placedProductsHTML = `
+    placedProductsHTML += `
         <div class="order-details-grid">
 
             <div class="product-image-container">
-                <img src="images/products/athletic-cotton-socks-6-pairs.jpg">
+                <img src="${matchingProduct.image}">
             </div>
 
             <div class="product-detials">
 
                 <div class="product-name">
-                    Black and Gray Athletic Cotton Socks - 6 Pairs
+                    ${matchingProduct.name}
                 </div>
                 <div class="product-delivery-date">
-                    Arriving on: August 15
+                    ${dayjs(product.estimatedDeliveryTime).format("dddd, MMMM D")}
                 </div>
                 <div class="product-quantity">
-                    Quantity:1
+                    Quantity: ${product.quantity}
                 </div>
                 <button class="buy-again-button button-primary">
                     <img class="buy-again-icon" src="images/icons/buy-again.png" >
@@ -93,6 +100,7 @@ function renderPlacedProducts(order) {
                 </a>
             </div>`;
   });
+  return placedProductsHTML;
 }
 
-renderOrders();
+loadPage();
