@@ -28,8 +28,14 @@ function loadTracking() {
     return product.productId === productId;
   });
 
-  const arrivingDate = dayjs(matchingProduct.estimatedDeliveryTime).format(
-    "dddd, MMMM D",
+  const arrivingDate = dayjs(matchingProduct.estimatedDeliveryTime);
+  const placeOrderDate = dayjs(order.orderTime);
+  const today = dayjs();
+  const elapsedTime = today.diff(placeOrderDate);
+  const totalTime = arrivingDate.diff(placeOrderDate);
+  const arrivalPercentage = Math.max(
+    0,
+    Math.min(100, (elapsedTime / totalTime) * 100),
   );
 
   const quantity = matchingProduct.quantity;
@@ -40,7 +46,7 @@ function loadTracking() {
             </a>
 
             <div class="delivery-date">
-                Arriving on ${arrivingDate}
+                Arriving on ${arrivingDate.format("dddd, MMMM D")}
             </div>
 
             <div class="product-info">
@@ -66,4 +72,10 @@ function loadTracking() {
             </div>`;
 
   document.querySelector(".order-tracking").innerHTML = trackingHTML;
+
+  const progressBar = document.querySelector(".progress-bar");
+
+  setTimeout(() => {
+    progressBar.style.width = `${arrivalPercentage}%`;
+  }, 100);
 }
