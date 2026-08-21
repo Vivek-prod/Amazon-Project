@@ -130,3 +130,11 @@
     border-radius: 50px;
 }
 
+
+.search-results{
+    padding-bottom: 5px;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(6,125,98);
+    padding-left: 8px;
+}

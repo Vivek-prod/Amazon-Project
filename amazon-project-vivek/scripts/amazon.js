@@ -32,6 +32,8 @@ function renderProductsGrid() {
       });
       return nameMatch || keywordMatch;
     });
+    document.querySelector(".search-results").innerHTML =
+      `search results: ${productsToRender.length}`;
   }
 
   if (productsToRender.length === 0) {
@@ -39,7 +41,8 @@ function renderProductsGrid() {
   }
 
   productsToRender.forEach((product) => {
-    productsHTML += `<div class="product-container">
+    productsHTML += `
+    <div class="product-container">
 
                 <div class="product-image-container">
                     <img class="product-image" src="${product.image}">
