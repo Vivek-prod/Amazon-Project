@@ -8,26 +8,29 @@ import { formatCurrency } from "./utils/money.js";
 
 const searchInput = document.querySelector(".js-search-bar");
 const searchButton = document.querySelector(".js-search-button");
-
 searchButton.addEventListener("click", search);
-
 searchInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     search();
   }
 });
-
 const url = new URL(window.location.href);
 const searchText = url.searchParams.get("search");
 
 function renderProductsGrid() {
-  console.log(products);
-  let productsHTML = "";
+  let productsHTML = ``;
   let productsToRender = products;
 
   if (searchText) {
     productsToRender = products.filter((product) => {
-      return product.name.toLowerCase().includes(searchText.toLowerCase());
+      const nameMatch = product.name
+        .toLowerCase()
+        .includes(searchText.toLowerCase());
+
+      const keywordMatch = product.keyWords.some((keyword) => {
+        return keyword.toLowerCase().includes(searchText.toLowerCase());
+      });
+      return nameMatch || keywordMatch;
     });
   }
 
