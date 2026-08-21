@@ -60,11 +60,11 @@ function loadTracking() {
             <img class="product-image" src="${productTracked.image}">
 
             <div class="progress-labels-container">
-                <div class="progress-label-preparing "> Preparing</div>
+                <div class="progress-label preparing "> Preparing</div>
 
-                <div class="progress-label-shipped">Shipped</div>
+                <div class="progress-label shipped">Shipped</div>
 
-                <div class="progress-label-delivered">Delivered</div>
+                <div class="progress-label delivered">Delivered</div>
             </div>
 
             <div class="progress-bar-container">
@@ -79,18 +79,13 @@ function loadTracking() {
     progressBar.style.width = `${arrivalPercentage}%`;
   }, 100);
 
-  const progressLabels = document.querySelector(".progress-labels-container");
+  let currentStatus;
   if (arrivalPercentage < 50) {
-    progressLabels
-      .querySelector(".progress-label-preparing")
-      .classList.add("current-status");
+    currentStatus = "preparing";
   } else if (arrivalPercentage < 100) {
-    progressLabels
-      .querySelector(".progress-label-shipped")
-      .classList.add("current-status");
+    currentStatus = "shipped";
   } else {
-    progressLabels
-      .querySelector(".progress-label-delivered")
-      .classList.add("current-status");
+    currentStatus = "delivered";
   }
+  document.querySelector(`.${currentStatus}`).classList.add("current-status");
 }
