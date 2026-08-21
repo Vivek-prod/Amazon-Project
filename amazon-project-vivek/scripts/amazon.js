@@ -6,10 +6,35 @@ import { updateHeaderCartQuantity } from "./utils/headerCart.js";
 
 import { formatCurrency } from "./utils/money.js";
 
+const searchInput = document.querySelector(".js-search-bar");
+const searchButton = document.querySelector(".js-search-button");
+
+searchButton.addEventListener("click", search);
+
+searchInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    search();
+  }
+});
+
+const url = new URL(window.location.href);
+const searchText = url.searchParams.get("search");
+
 function renderProductsGrid() {
   let productsHTML = "";
+  let productsToRender = products;
 
-  products.forEach((product) => {
+  if (searchText) {
+    productsToRender = products.filter((product) => {
+      return product.name.toLowerCase().includes(searchText.toLowerCase());
+    });
+  }
+
+  if (productsToRender.length === 0) {
+    productsHTML = `<div>No products found for "${searchText}"</div>`;
+  }
+
+  productsToRender.forEach((product) => {
     productsHTML += `<div class="product-container">
 
                 <div class="product-image-container">
@@ -58,7 +83,7 @@ function renderProductsGrid() {
 
   //geenerate html
 
-  document.querySelector(".js-products-grid").innerHTML += productsHTML;
+  document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
   //add item to cart
 
@@ -96,4 +121,14 @@ function showAddedToCartMessage(button) {
   setTimeout(() => {
     addedMessage.style.opacity = 0;
   }, 2000);
+}
+
+function search() {
+  const searchText = searchInput.value.trim();
+
+  if (!searchText) {
+    window.location.href = "home.html";
+    return;
+  }
+  window.location.href = `?search=${encodeURIComponent(searchText)}`;
 }
