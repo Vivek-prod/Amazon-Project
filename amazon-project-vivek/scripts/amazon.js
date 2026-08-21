@@ -21,6 +21,7 @@ const url = new URL(window.location.href);
 const searchText = url.searchParams.get("search");
 
 function renderProductsGrid() {
+  console.log(products);
   let productsHTML = "";
   let productsToRender = products;
 
