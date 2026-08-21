@@ -33,10 +33,10 @@ function loadTracking() {
   const today = dayjs();
   const elapsedTime = today.diff(placeOrderDate);
   const totalTime = arrivingDate.diff(placeOrderDate);
-  const arrivalPercentage = Math.max(
-    0,
-    Math.min(100, (elapsedTime / totalTime) * 100),
-  );
+  const arrivalPercentage =
+    totalTime > 0
+      ? Math.max(0, Math.min(100, (elapsedTime / totalTime) * 100))
+      : 100;
 
   const quantity = matchingProduct.quantity;
 
@@ -60,11 +60,11 @@ function loadTracking() {
             <img class="product-image" src="${productTracked.image}">
 
             <div class="progress-labels-container">
-                <div class="progress-label"> Preparing</div>
+                <div class="progress-label-preparing "> Preparing</div>
 
-                <div class="progress-label current-status">Shipped</div>
+                <div class="progress-label-shipped">Shipped</div>
 
-                <div class="progress-label">Delivered</div>
+                <div class="progress-label-delivered">Delivered</div>
             </div>
 
             <div class="progress-bar-container">
@@ -78,4 +78,19 @@ function loadTracking() {
   setTimeout(() => {
     progressBar.style.width = `${arrivalPercentage}%`;
   }, 100);
+
+  const progressLabels = document.querySelector(".progress-labels-container");
+  if (arrivalPercentage < 50) {
+    progressLabels
+      .querySelector(".progress-label-preparing")
+      .classList.add("current-status");
+  } else if (arrivalPercentage < 100) {
+    progressLabels
+      .querySelector(".progress-label-shipped")
+      .classList.add("current-status");
+  } else {
+    progressLabels
+      .querySelector(".progress-label-delivered")
+      .classList.add("current-status");
+  }
 }
